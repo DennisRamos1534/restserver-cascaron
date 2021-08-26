@@ -7,7 +7,9 @@ class Server {
     constructor() { // lo que se ejecuta cuando instanciamos la clase
         this.app = express(); // creamos el servidor 
         this.port = process.env.PORT; // creamos la variable de entorno
+        
         this.usuariosPath = '/api/usuarios'; // ruta para manejar los usuarios del endpoint
+        this.authPath = '/api/auth'; // ruta para manejar los usuarios del endpoint
 
         // conexion a la db de Mongo
         this.conectarDB();
@@ -35,6 +37,7 @@ class Server {
     }
 
     routes() {
+        this.app.use(this.authPath, require('../routes/auth'));
         this.app.use(this.usuariosPath, require('../routes/usuarios'));
     }
 

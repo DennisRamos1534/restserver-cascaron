@@ -33,7 +33,8 @@ const UsuarioSchema = Schema({
 });
 
 UsuarioSchema.methods.toJSON = function() {
-    const {__v, password, ...usuario} = this.toObject(); // saca la version y el password y todos los demas lo almacena en ...usuario
+    const {__v, password, _id, ...usuario} = this.toObject(); // saca la version y el password y todos los demas lo almacena en ...usuario
+    usuario.uid = _id; // cambiamos el _id que pone por defecto el mongo por uid en todos lados
     return usuario;
 }
 
