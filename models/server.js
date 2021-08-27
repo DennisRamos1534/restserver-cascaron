@@ -30,7 +30,7 @@ class Server {
         this.app.use(cors());
 
         // Lectura y parseo del body
-        this.app.use(express.json());
+        this.app.use(express.json()); // extraemos todas las propiedades que se envian en la url
 
         // Directorio publico
         this.app.use(express.static('public'));
