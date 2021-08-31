@@ -8,8 +8,13 @@ class Server {
         this.app = express(); // creamos el servidor 
         this.port = process.env.PORT; // creamos la variable de entorno
         
-        this.usuariosPath = '/api/usuarios'; // ruta para manejar los usuarios del endpoint
-        this.authPath = '/api/auth'; // ruta para manejar los usuarios del endpoint
+        this.paths = {
+            auth:       '/api/auth',  // ruta para manejar los usuarios del endpoint
+            buscar:     '/api/buscar',  // ruta para manejar los usuarios del endpoint
+            categorias: '/api/categorias',  // ruta para manejar los usuarios del endpoint
+            productos:  '/api/productos',  // ruta para manejar los usuarios del endpoint
+            usuarios:   '/api/usuarios' // ruta para manejar los usuarios del endpoint
+        }
 
         // conexion a la db de Mongo
         this.conectarDB();
@@ -37,8 +42,11 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.authPath, require('../routes/auth'));
-        this.app.use(this.usuariosPath, require('../routes/usuarios'));
+        this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.buscar, require('../routes/buscar'));
+        this.app.use(this.paths.categorias, require('../routes/categorias'));
+        this.app.use(this.paths.productos, require('../routes/productos'));
+        this.app.use(this.paths.usuarios, require('../routes/usuarios'));
     }
 
     listen() {
