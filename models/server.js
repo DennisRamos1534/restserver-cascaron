@@ -1,5 +1,7 @@
 const express = require('express'); // importamos el paquete de express que es para crear los servidores
 const cors = require('cors'); // importamos el paquete que sirve para manejar las rutas o links de los endpoint de nuestro backend
+const fileUpload = require('express-fileupload');
+
 const { dbConnection } = require('../database/config'); // exportamos el archivo para conectarnos a la db
 
 class Server {
@@ -13,7 +15,8 @@ class Server {
             buscar:     '/api/buscar',  // ruta para manejar los usuarios del endpoint
             categorias: '/api/categorias',  // ruta para manejar los usuarios del endpoint
             productos:  '/api/productos',  // ruta para manejar los usuarios del endpoint
-            usuarios:   '/api/usuarios' // ruta para manejar los usuarios del endpoint
+            usuarios:   '/api/usuarios', // ruta para manejar los usuarios del endpoint
+            uploads:    '/api/uploads', // ruta para manejar los usuarios del endpoint
         }
 
         // conexion a la db de Mongo
@@ -39,6 +42,13 @@ class Server {
 
         // Directorio publico
         this.app.use(express.static('public'));
+
+        // Carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true
+        }));
     }
 
     routes() {
@@ -47,6 +57,7 @@ class Server {
         this.app.use(this.paths.categorias, require('../routes/categorias'));
         this.app.use(this.paths.productos, require('../routes/productos'));
         this.app.use(this.paths.usuarios, require('../routes/usuarios'));
+        this.app.use(this.paths.uploads, require('../routes/uploads'));
     }
 
     listen() {
